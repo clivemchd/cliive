@@ -23,6 +23,11 @@ class ASCIICube {
   private raycaster = new THREE.Raycaster()
   private mouse = new THREE.Vector2()
 
+  // Audio properties
+  private audio!: HTMLAudioElement
+  private isMuted = false
+  private audioInitialized = false
+
   constructor() {
     this.canvas = document.createElement('canvas')
     this.ctx = this.canvas.getContext('2d')!
@@ -37,6 +42,9 @@ class ASCIICube {
     
     // Initialize Three.js scene
     this.initThreeJS()
+    
+    // Initialize audio
+    this.initAudio()
     
     // Create ASCII "Coming Soon" text
     this.createASCIIText()
@@ -57,6 +65,114 @@ class ASCIICube {
     window.addEventListener('resize', () => {
       this.onWindowResize()
     })
+  }
+
+  private initAudio() {
+    this.audio = document.getElementById('techno-audio') as HTMLAudioElement
+    
+    // Create audio control
+    this.createAudioControl()
+    
+    // Set up audio event listeners
+    this.audio.addEventListener('canplaythrough', () => {
+      console.log('Audio ready to play')
+    })
+    
+    this.audio.addEventListener('error', (e) => {
+      console.error('Audio error:', e)
+    })
+    
+    // Add interaction listeners to start audio
+    this.setupAudioTriggers()
+  }
+
+  private createAudioControl() {
+    const audioControl = document.getElementById('audio-control')!
+    
+    // Create speaker/muted icon using ASCII chars
+    this.updateAudioIcon()
+    
+    // Add click handler
+    audioControl.addEventListener('click', () => {
+      this.toggleAudio()
+    })
+  }
+
+  private updateAudioIcon() {
+    const audioControl = document.getElementById('audio-control')!
+    
+    if (this.isMuted) {
+      // Muted speaker icon
+      audioControl.textContent = [
+        '@@@@@@@@',
+        '@      @',
+        '@  @@  @',
+        '@    + @',
+        '@  @@  @',
+        '@      @',
+        '@@@@@@@@',
+				'        ',
+        ' MUTED '
+      ].join('\n').replace(/[@+]/g, (match) => {
+        return match === '@' ? this.chars[this.chars.length - 1] : this.chars[this.chars.length - 2]
+      })
+    } else {
+      // Unmuted speaker icon with sound waves
+      audioControl.textContent = [
+        '@@@@@@@@    :',
+        '@      @   :-',
+        '@  @@  @  :--',
+        '@    + @ :---',
+        '@  @@  @  :--',
+        '@      @   :-',
+        '@@@@@@@@    :',
+				'        ',
+        'PLAYING'
+      ].join('\n').replace(/[@+:-]/g, (match) => {
+        if (match === '@') return this.chars[this.chars.length - 1]
+        if (match === '+') return this.chars[this.chars.length - 2]
+        if (match === ':') return this.chars[3]
+        if (match === '-') return this.chars[4]
+        return match
+      })
+    }
+  }
+
+  private setupAudioTriggers() {
+    const startAudio = () => {
+      if (!this.audioInitialized && !this.isMuted) {
+        this.audio.play().then(() => {
+          this.audioInitialized = true
+          console.log('Audio started')
+        }).catch(error => {
+          console.log('Audio play failed:', error)
+        })
+      }
+    }
+
+    // Listen for various user interactions
+    document.addEventListener('click', startAudio, { once: true })
+    document.addEventListener('keydown', startAudio, { once: true })
+    document.addEventListener('touchstart', startAudio, { once: true })
+    
+    // Also trigger on cube interaction
+    this.renderer.domElement.addEventListener('mousedown', startAudio, { once: true })
+  }
+
+  private toggleAudio() {
+    this.isMuted = !this.isMuted
+    
+    if (this.isMuted) {
+      this.audio.pause()
+    } else {
+      if (this.audioInitialized) {
+        this.audio.play().catch(error => {
+          console.log('Audio play failed:', error)
+        })
+      }
+    }
+    
+    this.updateAudioIcon()
   }
 
   private setupMouseInteraction() {
@@ -509,4 +625,4 @@ function createMatrixEffect() {
 }
 
 // Start matrix effect
-createMatrixEffect() 
+createMatrixEffect()

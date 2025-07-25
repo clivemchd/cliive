@@ -61,6 +61,31 @@
   transition: transform 0.1s ease-out;
 }
 
+#audio-control {
+  position: fixed;
+  top: 20px;
+  z-index: 1000;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 8px;
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+  white-space: pre;
+  cursor: pointer;
+  user-select: none;
+  animation: glow 2s ease-in-out infinite alternate;
+  transition: transform 0.1s ease;
+}
+
+#audio-control:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 15px #00ff00, 0 0 25px #00ff00;
+}
+
+#audio-control:active {
+  transform: scale(0.95);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -77,11 +102,23 @@ body {
     font-size: 8px;
     line-height: 8px;
   }
+  
+  #audio-control {
+    font-size: 7px;
+    line-height: 7px;
+    top: 15px;
+  }
 }
 
 @media (max-width: 480px) {
   #coming-soon-ascii {
     font-size: 6px;
     line-height: 6px;
+  }
+  
+  #audio-control {
+    font-size: 6px;
+    line-height: 6px;
+    top: 10px;
   }
 } 
