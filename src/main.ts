@@ -12,8 +12,6 @@ class ASCIICube {
   private chars = ' .:-=+*#%@'
   private width = 120
   private height = 80
-  private mouseX = 0
-  private mouseY = 0
   private autoRotationSpeed = 0.005
   
   // Mouse interaction properties
@@ -66,9 +64,6 @@ class ASCIICube {
     
     // Mouse move for cursor and interaction
     document.addEventListener('mousemove', (e) => {
-      this.mouseX = (e.clientX / window.innerWidth) * 2 - 1
-      this.mouseY = -(e.clientY / window.innerHeight) * 2 + 1
-      
       // Update cursor position
       const cursor = document.getElementById('cursor')
       if (cursor) {
@@ -176,7 +171,6 @@ class ASCIICube {
     
     for (let y = 0; y < this.height; y++) {
       let line = ''
-      let hasContent = false
       
       for (let x = 0; x < this.width; x++) {
         const pixelIndex = (y * this.width + x) * 4
@@ -190,7 +184,6 @@ class ASCIICube {
         } else if (alpha < 50) {
           line += ' '
         } else {
-          hasContent = true
           const brightness = (r + g + b) / 3
           const adjustedBrightness = brightness * (alpha / 255)
           const charIndex = Math.floor((adjustedBrightness / 255) * (this.chars.length - 1))
