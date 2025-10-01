@@ -17,7 +17,7 @@ importers:
         version: 0.158.3
       typescript:
         specifier: ^5.2.2
-        version: 5.8.3
+        version: 5.9.3
       vite:
         specifier: ^5.0.8
         version: 5.4.19
@@ -314,8 +314,8 @@ packages:
   three@0.158.0:
     resolution: {integrity: sha512-TALj4EOpdDPF1henk2Q+s17K61uEAAWQ7TJB68nr7FKxqwyDr3msOt5IWdbGm4TaWKjrtWS8DJJWe9JnvsWOhQ==}
 
-  typescript@5.8.3:
-    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -567,7 +567,7 @@ snapshots:
 
   three@0.158.0: {}
 
-  typescript@5.8.3: {}
+  typescript@5.9.3: {}
 
   vite@5.4.19:
     dependencies:
